@@ -6,6 +6,7 @@ class Rotator {
     int minDegree;
     int maxDegree;
     int currentDegree;
+    int pin;
     double msPerDegreeRotation;
     virtual void printStats(int goalDeg, int degToRotate, int timeInMs, int delayPerDegInMs);
   public:
@@ -20,10 +21,13 @@ class Rotator {
 };
 
 Rotator::Rotator(int pin) {
-  servo.attach(pin);
+  servo.write(this->minDegree);
+  this->pin = pin;
 }
 
 void Rotator::rotate(int deg, int timeInMs) {
+  servo.write(this->minDegree);
+  servo.attach(pin);
   int degToRotate = deg - this->currentDegree;
 
   if(degToRotate == 0) { return; }
@@ -42,12 +46,22 @@ void Rotator::rotate(int deg, int timeInMs) {
     delay(delayPerDegInMs);     
   }
 
+  Serial.print("dms=");
+  Serial.println(delayPerDegInMs);
+  Serial.print("mspdr=");
+  Serial.println(this->msPerDegreeRotation);
+
   // wait for rotation to finish if rotation is full speed
-  if(delayPerDegInMs < this->msPerDegreeRotation) {
-    delay(abs(degToRotate) * msPerDegreeRotation);
+  if(delayPerDegInMs <= this->msPerDegreeRotation) {
+    int del = (int)(abs(degToRotate) * this->msPerDegreeRotation);
+    Serial.println("delay");
+    Serial.println(del);
+    delay(del);
   }
 
   this->printStats(deg, degToRotate, timeInMs, delayPerDegInMs);
+
+  servo.detach();
 }
 
 void Rotator::setMinDegree(int degree) {
@@ -72,6 +86,7 @@ void Rotator::rotateMaxDegree(int timeInMs=0) {
 
 void Rotator::rotateToPercentage(int percentage, int timeInMs=0) {
   int degreeDifference = this->maxDegree - this->minDegree;
+  
   double degreeToRotate = (((double)degreeDifference / (double)100) * percentage) + this-> minDegree;
   
   Serial.println(degreeToRotate);

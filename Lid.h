@@ -20,5 +20,5 @@ void Lid::fullyClose(int timeInMs=0) {
 }
 
 void Lid::openToPercentage(int percentage, int timeInMs=0) {
-  this->rotateToPercentage(percentage, timeInMs); 
+  this->rotateToPercentage(-percentage, timeInMs); 
 }

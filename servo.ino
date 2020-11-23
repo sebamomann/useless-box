@@ -14,10 +14,39 @@ Box box(arm, lid);
 
 
 void setup() {
+  //lid->rotate(0,0);
+  //arm->rotateToPercentage(0);
+  //lid->fullyClose(0);
+  //arm->rotateToPercentage(0);
+  
   Serial.begin(9600);
   pinMode(SWITCH_PIN, INPUT);
 }
 
 void loop() {
-  box.executeRandomFunction();
+  //arm->rotateToPercentage(0, 0);
+  //delay(1000);
+  //delay(1000);
+  //arm->rotate(0, 0);
+  //delay(1000);
+  //arm->rotate(65, 0);
+  //delay(1000);
+  //delay(1000);
+  //arm->rotate(75, 1000);
+  //delay(1000);
+  //lid->fullyOpen(0);
+  //delay(4000);
+  //
+  //delay(1000);
+
+  if(digitalRead(SWITCH_PIN) == LOW) {
+    box.executeRandomFunction(); 
+  }
+
+  //arm->rotateToPercentage(100, 0);
+ //lid->fullyOpen(0);
+ //delay(1000);
+ //arm->rotateToPercentage(100, 0);
+ //lid->fullyClose(0);
+ //arm->rotateToPercentage(0, 0);
 }
