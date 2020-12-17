@@ -10,6 +10,9 @@ class Box{
     void f(void);
     void g(void);
     void h(void);
+    void i(void);
+    void j(void);
+    void k(void);
   public:
     Box(Arm* arm, Lid* lid) { 
       this->arm = arm;
@@ -19,14 +22,15 @@ class Box{
 };
 
 void Box::executeRandomFunction(void) {
-  int numberOfFunctions = 8;
+  randomSeed(millis());
+  int numberOfFunctions = 11;
   
   Serial.println("");
   Serial.println("");
   Serial.println("--------------------------------");
   Serial.println("--------------------------------");
-  int vvar = rand() % numberOfFunctions;
-  switch(vvar) {
+  int var = random(numberOfFunctions);
+  switch(var) {
     case 0: this->a(); break;
     case 1: this->b(); break;
     case 2: this->c(); break;
@@ -35,13 +39,16 @@ void Box::executeRandomFunction(void) {
     case 5: this->f(); break;
     case 6: this->g(); break;
     case 7: this->h(); break;
+    case 8: this->i(); break;
+    case 9: this->j(); break;
+    case 10: this->k(); break;
   }
   Serial.println("--------------------------------");
   Serial.println("--------------------------------");
   Serial.println("");
   Serial.println("");
   
-  delay(3000);
+  delay(1000);
 }
 
 // basic 
@@ -69,7 +76,7 @@ void Box::b(void) {
 
   delay(500);
 
-  this->lid->rotateToPercentage(40, 2000);
+  this->lid->rotateToPercentage(60, 2000);
   delay(1000);
 
   this->lid->fullyOpen();
@@ -128,12 +135,12 @@ void Box::e(void) {
   this->lid->fullyOpen();
 
   this->arm->rotateToPercentage(100, 0);
-  delay(3000);
+  delay(2000);
   
-  this->arm->rotateToPercentage(50, 1000);
+  this->arm->rotateToPercentage(30, 1000);
 
   this->arm->rotateToPercentage(90, 0);
-  delay(3000);
+  delay(2000);
 
   this->arm->rotateToPercentage(0, 2000);
 
@@ -174,4 +181,49 @@ void Box::h(void) {
   delay(1000);
 
   this->lid->fullyClose(2000);
+}
+
+//Basic, Klappe nochmal auf u. zu
+void Box::i(void) {
+  Serial.println("Function h");
+  this->lid->fullyOpen(0);
+  this->arm->rotateToPercentage(100, 0);
+  this->arm->rotateToPercentage(0, 0);
+  this->lid->fullyClose(0);
+  delay(1000);
+  this->lid->fullyOpen(0);
+  delay(1000);
+  this->lid->fullyClose(0);
+}
+
+// basic, langes warten
+void Box::j(void) {
+  Serial.println("Function i");
+  delay(5000);
+  
+  this->lid->fullyOpen();
+  
+  this->arm->rotateToPercentage(100, 0);
+  this->arm->rotateToPercentage(0, 0);
+ 
+  this->lid->fullyClose();
+}
+
+//Lid abspasten, Arm langsam
+void Box::k(void) {
+  Serial.println("Function j");
+
+  for(int i = 0; i <= 3; i++) {
+    this->lid->fullyOpen();
+    this->lid->fullyClose();
+  }
+
+  this->lid->fullyOpen();
+
+  this->arm->rotateToPercentage(70, 2000);
+  this->arm->rotateToPercentage(100, 0);
+  this->arm->rotateToPercentage(80, 500);
+  this->arm->rotateToPercentage(0, 0);
+
+  this->lid->fullyClose();
 }

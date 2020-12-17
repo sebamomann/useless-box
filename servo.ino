@@ -18,9 +18,9 @@ void setup() {
   //arm->rotateToPercentage(0);
   //lid->fullyClose(0);
   //arm->rotateToPercentage(0);
-  
   Serial.begin(9600);
   pinMode(SWITCH_PIN, INPUT);
+  randomSeed(analogRead(A0));
 }
 
 void loop() {
@@ -39,7 +39,7 @@ void loop() {
   //
   //delay(1000);
 
-  if(digitalRead(SWITCH_PIN) == LOW) {
+  if(digitalRead(SWITCH_PIN) == HIGH) {
     box.executeRandomFunction(); 
   }
 
